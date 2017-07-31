@@ -14,9 +14,9 @@ services:
 
   blinkt:
     image: gone/rpi-docker-blinkt
-    build: ../blinkt-driver
+    build: ./.blinkt
     volumes:
-     - "../blinkt-driver:/app"
+     - "./.blinkt:/app"
     environment:
      - REDIS_HOST=redis
      - REDIS_PORT=6379
@@ -33,6 +33,7 @@ services:
     environment:
      - REDIS_HOST=redis
      - REDIS_PORT=6379
+     - JENKINS_HOST=http://jenkins.home.gone.io/
     links:
      - redis
     volumes:

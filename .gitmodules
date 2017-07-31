@@ -1,0 +1,3 @@
+[submodule ".blinkt"]
+	path = .blinkt
+	url = git@github.com:matthewbaggett/rpi-docker-blinkt-driver.git
