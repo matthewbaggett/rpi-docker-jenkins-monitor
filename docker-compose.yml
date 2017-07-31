@@ -1,0 +1,39 @@
+version: "2"
+
+services:
+  redis:
+    image: arm32v7/redis
+
+  commander:
+    image: gone/rpi-docker-redis-commander
+    command: --redis-host redis
+    ports:
+      - "8080:8081"
+    links:
+      - redis
+
+  blinkt:
+    image: gone/rpi-docker-blinkt
+    build: ../blinkt-driver
+    volumes:
+     - "../blinkt-driver:/app"
+    environment:
+     - REDIS_HOST=redis
+     - REDIS_PORT=6379
+    links:
+     - redis
+    devices:
+      - "/dev/mem:/dev/mem"
+    cap_add:
+      - SYS_RAWIO
+    privileged: true
+
+  monitor:
+    build: .
+    environment:
+     - REDIS_HOST=redis
+     - REDIS_PORT=6379
+    links:
+     - redis
+    volumes:
+     - "./:/app"
